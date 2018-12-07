@@ -25,7 +25,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(checksum(list))
+	fmt.Println(findLetters(list))
 }
 
 func checksum(list []string) int64 {
@@ -72,4 +72,46 @@ func checkFor2or3(s string) (hasTwo bool, hasThree bool) {
 	}
 
 	return twos > 0, threes > 0
+}
+
+func compare(a, b string) int {
+
+	diff := -1
+
+	uA := []rune(a)
+	uB := []rune(b)
+
+	if len(a) != len(b) {
+		return -1
+	}
+
+	for i, r := range uA {
+
+		if uB[i] == r {
+			continue
+		}
+
+		if diff != -1 {
+			return -1
+		}
+
+		diff = i
+	}
+
+	return diff
+}
+
+func findLetters(list []string) string {
+	for i, word := range list {
+		for j := i + 1; j < len(list); j++ {
+			diff := compare(word, list[j])
+
+			if diff != -1 {
+				uWord := []rune(word)
+				return string(append(uWord[:diff], uWord[diff+1:]...))
+			}
+		}
+	}
+
+	return ""
 }

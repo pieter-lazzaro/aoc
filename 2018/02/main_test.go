@@ -48,3 +48,43 @@ func Test_Has2Or3(t *testing.T) {
 		})
 	}
 }
+
+func Test_Compare(t *testing.T) {
+
+	tests := []struct {
+		a    string
+		b    string
+		diff int
+	}{
+		{a: "abcde", b: "axcye", diff: -1},
+		{a: "fghij", b: "fguij", diff: 2},
+	}
+
+	for _, test := range tests {
+		t.Run(test.a+":"+test.b, func(t *testing.T) {
+			diff := compare(test.a, test.b)
+
+			if diff != test.diff {
+				t.Fatalf("expected %d got %d", test.diff, diff)
+			}
+		})
+	}
+}
+
+func Test_SearchList(t *testing.T) {
+	list := []string{
+		"abcde",
+		"fghij",
+		"klmno",
+		"pqrst",
+		"fguij",
+		"axcye",
+		"wvxyz",
+	}
+
+	commonLetters := findLetters(list)
+
+	if commonLetters != "fgij" {
+		t.Fatalf("expected to get fgij got %s", commonLetters)
+	}
+}
